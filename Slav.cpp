@@ -4,24 +4,26 @@
 using namespace std;
 
 vector <string> Slav::names;
+int Slav::_counter = 0;
 
 void Slav::init()
 {
 	srand(time(NULL));
 	ifstream file("names.dat");
 	copy(istream_iterator<string>(file),
-         istream_iterator<string>(),
-         back_inserter(names));
+		istream_iterator<string>(),
+		back_inserter(names));
 	file.close();
 }
 
 Slav::Slav()
 {
-	static int ret = (init(), 1);	// Leniwa inicjalizacja
-	_name = names[rand() % names.size()];
+	static int amountOfNames = (init(), names.size());
+	_name = names[rand() % amountOfNames];
+	_id = _counter++;
 }
 
-string Slav::name()
+string Slav::description()
 {
-	return _name;
+	return string("  ") + _name + " [" + to_string(_id) + "]";
 }
